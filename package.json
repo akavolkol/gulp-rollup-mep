@@ -1,6 +1,6 @@
 {
   "name": "gulp-rollup-mep",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Make separate bundles with Rollup according to multiple entry points",
   "main": "index.js",
   "scripts": {

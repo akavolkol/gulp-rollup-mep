@@ -31,7 +31,7 @@ module.exports = function(options) {
 
       callback(null, file);
     }).catch(function (err) {
-      return callback(new PluginError('gulp-rollup-mep', err));
+      callback(new PluginError('gulp-rollup-mep', err));
     });
   });
 
