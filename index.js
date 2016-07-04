@@ -1,21 +1,21 @@
-'use strict';
 
-var Transform = require('readable-stream/transform'),
+var through = require('through2'),
+  gutil = require('gulp-util'),
   Rollup = require('rollup');
+
+var PluginError = gutil.PluginError;
 
 module.exports = function(options) {
 
-  var transformStream = new Transform({objectMode: true});
-  transformStream._transform = function(file, encoding, callback) {
+  var stream = through.obj(function(file, encoding, callback) {
     if (file.isNull()) {
       return callback();
     }
 
     var filePath = file.path;
+    options.entry = filePath;
 
-    return Rollup.rollup({
-      entry: filePath
-    }).then(function (bundle) {
+    return Rollup.rollup(options).then(function (bundle) {
       var proccessed = bundle.generate(options);
       file.contents = new Buffer(proccessed.code);
       if (options.sourceMap) {
@@ -28,10 +28,12 @@ module.exports = function(options) {
           file.sourceMap = map;
         }
       }
-      
-      return callback(null, file);
-    });
-  };
 
-  return transformStream;
+      callback(null, file);
+    }).catch(function (err) {
+      return callback(new PluginError('gulp-rollup-mep', err));
+    });
+  });
+
+  return stream;
 };
