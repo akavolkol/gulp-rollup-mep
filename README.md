@@ -43,3 +43,19 @@ gulp.task('rollup', function(){
 });
 ```
 
+### With cache
+```javascript
+var rollup = require('gulp-rollup-mep'),
+    gulp = require('gulp')
+    cache = {};
+
+gulp.task('rollup', function(){
+  return gulp.src(['src/index.js', 'src/bundle1.js'])
+  .pipe(rollup({
+    format: "iife"
+  }), cache, function(bundle, filePath) {
+    cache[filePath] = bundle;
+  })
+  .pipe(gulp.dest('build'));
+});
+```
