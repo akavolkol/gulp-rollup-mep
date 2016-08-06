@@ -43,3 +43,17 @@ gulp.task('rollup', function(){
 });
 ```
 
+### With Own Rollup version
+```javascript
+var rollup = require('gulp-rollup-mep'),
+    gulp = require('gulp');
+
+gulp.task('rollup', function(){
+  return gulp.src(['src/index.js', 'src/bundle1.js'])
+  .pipe(rollup({
+    format: "iife",
+    rollup: require('rollup')
+  }))
+  .pipe(gulp.dest('build'));
+});
+```
