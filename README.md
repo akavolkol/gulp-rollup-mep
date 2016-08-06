@@ -43,7 +43,7 @@ gulp.task('rollup', function(){
 });
 ```
 
-### With Own Rollup version
+### With own Rollup version
 ```javascript
 var rollup = require('gulp-rollup-mep'),
     gulp = require('gulp');
