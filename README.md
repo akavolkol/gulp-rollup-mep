@@ -16,7 +16,7 @@ Then, add it to your `gulpfile.js`:
 var rollup = require('gulp-rollup-mep'),
     gulp = require('gulp');
 
-gulp.task('rollup', function(){
+gulp.task('rollup', function() {
   return gulp.src(['src/index.js', 'src/bundle1.js'])
   .pipe(rollup({
     format: "iife"
@@ -31,7 +31,7 @@ var rollup = require('gulp-rollup-mep'),
     gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps');
 
-gulp.task('rollup', function(){
+gulp.task('rollup', function() {
   return gulp.src(['src/index.js', 'src/bundle1.js'])
   .pipe(sourcemaps.init())
   .pipe(rollup({
@@ -43,17 +43,21 @@ gulp.task('rollup', function(){
 });
 ```
 
-### With own Rollup version
+### With cache
 ```javascript
 var rollup = require('gulp-rollup-mep'),
-    gulp = require('gulp');
-
-gulp.task('rollup', function(){
+    gulp = require('gulp'),
+    cache = {};
+    
+gulp.task('rollup', function() {
   return gulp.src(['src/index.js', 'src/bundle1.js'])
   .pipe(rollup({
-    format: "iife",
-    rollup: require('rollup')
-  }))
+    format: "iife"
+  }), cache, function(bundle, filePath) {
+    cache[filePath] = bundle;
+  })
   .pipe(gulp.dest('build'));
 });
 ```
+### Additional options
+`rollup`: accept you desired version of rollup.js
