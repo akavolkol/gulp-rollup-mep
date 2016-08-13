@@ -5,12 +5,13 @@ var through = require('through2'),
 
 var PluginError = gutil.PluginError;
 
-module.exports = function(options) {
-  
+module.exports = function(options, cache, cacheCallback) {
   if (options.rollup) {
     Rollup = options.rollup;
     delete options.rollup;
   }
+  
+  var cacheObj = Object.assign({}, cache); 
   
   var stream = through.obj(function(file, encoding, callback) {
     if (file.isNull()) {
@@ -19,9 +20,18 @@ module.exports = function(options) {
 
     var filePath = file.path;
     options.entry = filePath;
+    
+    if (cache) {
+      options.cache = cacheObj[filePath];
+    }
 
     return Rollup.rollup(options).then(function (bundle) {
       var proccessed = bundle.generate(options);
+      
+      if (cache && cacheCallback) {
+        cacheCallback(bundle, filePath);
+      }
+      
       file.contents = new Buffer(proccessed.code);
       if (options.sourceMap) {
         var map = proccessed.map;
