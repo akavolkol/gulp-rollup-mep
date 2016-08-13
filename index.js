@@ -6,7 +6,12 @@ var through = require('through2'),
 var PluginError = gutil.PluginError;
 
 module.exports = function(options) {
-
+  
+  if (options.rollup) {
+    Rollup = options.rollup;
+    delete options.rollup;
+  }
+  
   var stream = through.obj(function(file, encoding, callback) {
     if (file.isNull()) {
       return callback();
