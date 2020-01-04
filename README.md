@@ -1,7 +1,7 @@
 # gulp-rollup-mep
 > Make separate bundles with Rollup according to multiple entry points.
 
-Current status is in development, therefore something functional of Rollup may not working. If you have any troubles with it - please open issues. Also,  I pleasure get help in development this package.  
+If you have any troubles with it - please open issues.
 
 ## Usage
 install `gulp-rollup-mep` as a development dependency:
